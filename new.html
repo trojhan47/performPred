@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body><br>
+
+    <hr>
+    <div id="total">
+    <div class="forms">
+    <h1>Welcome to Students performance prediction page</h1>
+    <p>please fill your details appropriately, not more than 5 subjects in total should be inserted for WAEC</p>
+    <div id="inputs">
+        <div id="first">
+        <input type="hidden" id="index">
+        <input class="input " type="text"  id="fullName" placeholder="full name"> <br>
+        <input class="input" type="email"  id="email" placeholder="email"> <br>
+        <input class="input" type="text"  id="A1" placeholder="enter number of A1 in WAEC"> <br>
+        <input class="input" type="text"  id="B2" placeholder="enter number of B2 in WAEC"> <br>
+        <input class="input" type="text"  id="B3" placeholder="enter number of B3 in WAEC"> <br>
+        <input class="input" type="text"  id="C4" placeholder="enter number of C4 in WAEC"> <br>
+    </div>
+    <div id="second">
+        <input class="input" type="text"  id="C5" placeholder="enter number of C5 in WAEC"> <br>
+        <input class="input" type="text"  id="C6" placeholder="enter number of C6 in WAEC"> <br>
+        <input class="input" type="text"  id="D7" placeholder="enter number of D7 in WAEC"> <br>
+        <input class="input" type="text"  id="F9" placeholder="enter number of F9 in WAEC"> <br>
+        <input class="input" type="text"  id="utme" placeholder="enter recent UTME score"> <br>
+        
+       
+    </div>
+    </div>
+    <div id="buttons">
+        <button class="update-btn" onclick="sole()">Predict</button>
+       </div>  
+    </div>
+    
+    <div class="search">
+       
+        <h1 id="heading">Search User</h1>
+        <input type="search" id="search-field" class="search-box" placeholder="search user here..." required>
+        <button onclick="searchOne();" class="search-btn">Search One</button>
+        <button onclick="searchAll();" class="search-btn">Search All</button>
+        <button onclick="searchPart();" class="search-btn">Search Part</button>
+        <p id="record"></p>
+        <button onclick="goBack()" id="back-btn" class="search-btn">Back to Profiles</button>
+    </div>
+</div>
+
+<hr> 
+    <h1>Users</h1> 
+    <div id="users"></div>
+
+<script>
+     users = [
+           {
+
+               "fullName" : "Oyetunji Atilade",
+               "email" : "atiladeoyetunji@gmail.com",
+               "gpa" : "4.00 - 4.87",
+                "cgpa" : "4.50 - 4.65"
+           },
+           {
+               "fullName" : "john doe",
+               "email" : "johndoes@gmail.com",
+               "gpa" : "4.00 - 4.87",
+                "cgpa" : "4.50 - 4.65"
+           },
+           {
+               "fullName" : "colly max",
+               "email" : "max@gmail.com",
+               "gpa" : "4.00 - 4.87",
+                "cgpa" : "4.50 - 4.65"
+           }
+       ]
+
+       localStorage.setItem("now", JSON.stringify(users))
+        // get data from  local storage
+    users = JSON.parse(localStorage.getItem("now"))
+
+    
+        // Creates new array if none exists in local storage
+        if (users == null) {
+            users = []
+        }
+// get data from form
+      
+
+		function sole() {
+
+        var a =   (document.getElementById("A1").value)*8
+		var b2 =  (document.getElementById("B2").value)*7
+		var b3 =  (document.getElementById("B3").value)*6
+		var c4 =  (document.getElementById("C4").value)*5
+		var c5 =  (document.getElementById("C5").value)*4
+		var c6 =  (document.getElementById("C6").value)*3
+		var d =  (document.getElementById("D7").value)*0
+		var f =  (document.getElementById("F9").value)*0
+
+		var g = Number(a) + Number(b2) + Number(b3) + Number(c4) + Number(c5) + Number(c6) + Number(d) + Number(f)
+            if (g>40) {
+                alert(" ERROR!!! Excess number of WAEC grades enterd")
+            }
+		var h = document.getElementById("utme").value
+        if (0>h || h>400) {
+            alert("wrong Jamb score")
+        } else {
+            h = h*0.15
+        }
+    //    alert(h)
+        final = ((g + h) * 0.05).toFixed(2)
+       alert(`According to data provided, this candidate is most likely to obtain a first cgpa between 
+       ${(final-0.35).toFixed(2)} - ${final} and a final CGPA between ${(final-0.35).toFixed(2)} - ${(final-0.15).toFixed(2)}`)
+      
+       newUser =
+       {    "fullName" : document.getElementById("fullName").value,
+                "email" : document.getElementById("email").value,
+                "gpa" : `${(final-0.35).toFixed(2)} - ${final}`,
+                "cgpa" : `${(final-0.35).toFixed(2)} - ${(final-0.15).toFixed(2)}`
+                
+            }
+      console.log(document.getElementById("fullName").value)
+       users.push(newUser);
+       localStorage.setItem("now", JSON.stringify(users));
+       display();
+		}
+
+
+function add() {
+       newUser =
+       {    "fullName" : document.getElementById("fullName").value,
+                "email" : document.getElementById("email").value,
+                "Predicted First GPA range" : `${(final-0.35).toFixed(2)} - ${final}`,
+                "Predicted Final CGPA range" : `${(final-0.35).toFixed(2)} - ${(final-0.15).toFixed(2)}`
+                
+            }
+      console.log(document.getElementById("fullName").value)
+       users.push(newUser);
+       localStorage.setItem("now", JSON.stringify(users));
+       display();
+    }
+
+    function Delete(i) {
+        con = confirm("Are you sure you want to delete " + users[i].fullName +"'s" + " details?")
+		if (con == true) {
+        users.splice(i, 1)
+        localStorage.setItem("now", JSON.stringify(users))
+        display()
+    }
+    }
+
+    function edit(i) {
+        updatedUser={
+            "fullName" : prompt("Enter FullName", users[i].fullName ),
+               "email" : prompt("Enter Email", users[i].email),
+               "phone" : prompt("Enter phone number", users[i].phone),
+               "pics" : prompt("input file address", users[i].pics)
+        }
+        users[i] = updatedUser
+        localStorage.setItem("now", JSON.stringify(users))
+        display()
+    }
+  function update(){
+            i =  document.getElementById("index").value
+      let updatedRecord = 
+      {
+                "fullName" : document.getElementById("fullName").value,
+                "email" : document.getElementById("email").value,
+                "phone" : document.getElementById("phone").value,
+               "pics" : document.getElementById("pics").value,
+      }
+      users[i] = updatedRecord
+      localStorage.setItem("now", JSON.stringify(users))
+      display()
+  }
+
+  function triggerEdit(i) {
+
+      userRecord = users[i]
+                 document.getElementById("fullName").value = userRecord.fullName
+                 document.getElementById("email").value = userRecord.email
+                 document.getElementById("phone").value = userRecord.phone
+                 document.getElementById("pics").value = userRecord.pics
+                 document.getElementById("index").value = i
+  }
+
+  function goBack(){
+            window.location.reload();
+        }
+
+          // Declaring the Search function for one result
+          function searchOne() {
+            searchInput = document.getElementById('search-field').value.toLowerCase();
+            if (!searchInput || searchInput.length <= 3) {
+                alert("please enter a name(minimum of four letters)")
+            } else {
+               foundUserObj = users.find(user=>user.fullName.toLowerCase()== searchInput);
+                if(foundUserObj == null ||foundUserObj == undefined) {
+                    document.getElementById("back-btn").style.display = "block";
+                    document.getElementById("record").innerHTML = `No record found for ${searchInput}`;
+                } else {
+                    users =[];
+                    users.push(foundUserObj);
+                    if (users.length <= 1) {
+                        document.getElementById("record").innerHTML = `${users.length} record found for ${searchInput}`;
+                    } else { 
+                        document.getElementById("record").innerHTML = `${users.length} records found for ${searchInput}`;
+                    }
+                    document.getElementById("back-btn").style.display = "block";
+                    display();
+                }
+            } 
+        }
+
+          // Declaring the search function for all results
+          function searchAll() {
+            searchInput = document.getElementById('search-field').value.toLowerCase();
+            if (!searchInput || searchInput.length <= 3) {
+                alert("please enter a name(minimum of four letters)")
+            } else {
+               foundUserObj = users.filter(user=>user.fullName.toLowerCase()== searchInput);
+                if(foundUserObj == null ||foundUserObj == undefined) {
+                    document.getElementById("back-btn").style.display = "block";
+                    document.getElementById("record").innerHTML = `No record found for ${searchInput}`;
+                } else {
+                    users =[];
+                    users.push(foundUserObj);
+                    if (users.length <= 1) {
+                        document.getElementById("record").innerHTML = `${users.length} record found for ${searchInput}`;
+                    } else { 
+                        document.getElementById("record").innerHTML = `${users.length} records found for ${searchInput}`;
+                    }
+                    document.getElementById("back-btn").style.display = "block";
+                    display();
+                }
+            } 
+        }
+        
+        // declaring the search function for part matches
+        function searchPart(){
+            searchInput = document.getElementById("search-field").value.toLowerCase();
+            foundUserObj = users.filter(user=>user.fullName.toLowerCase().includes(searchInput));
+            // conditional ternary operator
+            if(foundUserObj == null ||foundUserObj == undefined) {
+                    document.getElementById("back-btn").style.display = "block";
+                    document.getElementById("record").innerHTML = `No record found for ${searchInput}`;
+                } else {
+                    users =[];
+                    users.push(foundUserObj);
+                    if (users.length <= 1) {
+                        document.getElementById("record").innerHTML = `${users.length} record found for ${searchInput}`;
+                    } else { 
+                        document.getElementById("record").innerHTML = `${users.length} records found for ${searchInput}`;
+                    }
+                    document.getElementById("back-btn").style.display = "block";
+                    display();
+                }
+            } 
+        
+function display(){
+
+cont = ''
+for(i=0; i<users.length; i++)
+{
+    cont += ` <div id="container">
+        
+        
+        <strong>Full Name</strong> : ${users[i].fullName} <br>
+        <strong>Email</strong> : ${users[i].email} <br>
+        <strong>Predicted First GPA range</strong> : ${users[i].gpa} <br>
+        <strong>Predicted Final CGPA range</strong> : ${users[i].cgpa} <br>
+        <button class="del-btn" onclick="Delete(${i});">Delete User</button>
+         <button class="edit-btn" onclick="triggerEdit(${i});">Edit User</button>
+    </div> `
+}
+ document.getElementById("users").innerHTML = cont
+}
+
+display()   
+  
+</script>
+</body>
+</html>
