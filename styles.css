@@ -3,7 +3,7 @@
     /* --ned-color: rgba(229, 148, 0 , 0.9); */
     --overlay-color: rgba(24, 39, 51 , 0.85);
     --primary-color: #110E4C;
-    --secondary-color: #d4560d;
+    --secondary-color: #E7ECFF;
     --light-color: #E7ECFF;
    
     /* --extra-color: rgba(13, 110, 139, 0.75);
@@ -63,8 +63,8 @@ p {
     }
 
     .search-btn {
-        background-color: #500a0a;
-        color: cornsilk;
+        background-color: #E7ECFF;
+        color: rgba(1, 7, 19, 0.75);
         border-style: none;
         padding: 6px;
         border-radius: 10px;
@@ -128,8 +128,8 @@ p {
     }
 
     .del-btn {
-        background-color: #500a0a;
-        color: cornsilk;
+        background-color: #E7ECFF;
+        color: rgba(1, 7, 19, 0.75);
         border-style: none;
         padding: 6px;
         border-radius: 10px;
@@ -139,8 +139,8 @@ p {
     }
 
     .edit-btn {
-        background-color: cornsilk;
-        color:  #500a0a;
+        background-color: rgba(1, 7, 19, 0.75);
+        color:  #E7ECFF;
         border-style: none;
         padding: 6px;
         border-radius: 10px;
